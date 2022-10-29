@@ -1,0 +1,75 @@
+#Hangman Project
+hangmanWord = "platinum" #test
+guessList = []
+strikeCount = 1
+
+
+#Function to take user input. Must be 1 letter
+def getLetter():
+  userGuess = ""
+  #User input variable
+  while len(userGuess) != 1:
+    print()
+    print()
+    userGuess = input("Please enter a letter:  ")
+    #Make uppercase for visual pref
+    guessList.append(userGuess)
+  return userGuess
+    #return
+
+
+#Display secret word function
+def secretWord(userGuess, actual):
+  #make uppercase
+  actual = actual.lower()
+  #if letter in our word
+  for char in actual:
+    #if the var(user input letter) passed is = to our char(letter) in word
+    if char in userGuess:
+    #print the letter
+      print(char, end="")
+      
+    #else, print underscore
+    else:
+      print(' _', end="")
+    
+
+#send userGuess as var to secretWord func
+#secretWord(userGuess, hangmanWord)
+#win check
+def winCheck(hangmanWord, guessList):
+  #For each letter in the word
+  for char in hangmanWord:
+    #if found in the guessList
+    if char not in guessList:
+      #They have not guessed the letter yet
+      return False
+  return True
+
+#print(checkFlag)
+
+while strikeCount <= 5 and not winCheck(hangmanWord, guessList):
+  #grab letter
+  letter = getLetter()
+  #make upper
+  letter = letter.lower()
+  #append to guessList
+  guessList.append(letter)
+  #If loop
+  if letter in hangmanWord:
+    print()
+    print('Good Guess!')
+    print()
+    secretWord(guessList, hangmanWord)
+  else:
+    print()
+    print('Bad Guess =/, letter not in word')
+    secretWord(guessList, hangmanWord)
+    strikeCount += 1
+  if strikeCount >= 6:
+    print()
+    print(f"SORRY, YOU RAN OUT OF GUESSES. YOU LOSE. THE SECRET WORD IS \"{hangmanWord}\"")
+  if winCheck(hangmanWord, guessList):
+    print()
+    print(f'GREAT JOB. YOU WON. THE SECRET WORD WAS \"{hangmanWord}\"')
+
